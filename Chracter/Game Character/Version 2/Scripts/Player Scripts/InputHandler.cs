@@ -15,10 +15,15 @@ namespace CotN
         public bool b_Input;
         public bool rb_Input;
         public bool rt_Input;
+        public bool d_Pad_Up;
+        public bool d_Pad_Down;
+        public bool d_Pad_Left;
+        public bool d_Pad_Right;
 
 
         public bool rollFlag;
         public bool sprintFlag;
+        public bool comboFlag;
         public float rollInputTimer;
 
 
@@ -26,6 +31,7 @@ namespace CotN
         PlayerControls inputActions;
         PlayerAttacker playerAttacker;
         PlayerInventory playerInventory;
+        PlayerManager playerManager;
         CameraHandler cameraHandler;
 
         Vector2 movementInput;
@@ -35,6 +41,7 @@ namespace CotN
         {
             playerAttacker = GetComponent<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
+            playerManager = GetComponent<PlayerManager>();
         }
 
 
@@ -60,6 +67,7 @@ namespace CotN
             MoveInput(delta);
             HandleRollInput(delta);
             HandleAttackInput(delta);
+            HandleQuickSlotsInput();
         }
 
         private void MoveInput(float delta)
@@ -100,13 +108,45 @@ namespace CotN
             //RB Input handles the RIGHT hand weapon's light attack
             if(rb_Input)
             {
-                playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
-            }
+                if(playerManager.canDoCombo) 
+                {
+                    comboFlag = true;
+                    playerAttacker.HandleWeaponCombo(playerInventory.rightWeapon);
+                    comboFlag = false;
+                }
+                else
+                {
+                    if (playerManager.isInteracting)
+                        return;
+                         
+                    if (playerManager.canDoCombo)
+                        return;
+                    playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
+                }
+
+
+                }
 
             if(rt_Input)
             {
                 playerAttacker.HandelHeavyAttack(playerInventory.rightWeapon);
             }
+        }
+
+        private void HandleQuickSlotsInput()
+        {
+            inputActions.QuickSlots.DPadRight.performed += i => d_Pad_Right = true;
+            inputActions.QuickSlots.DPadLeft.performed += i => d_Pad_Left = true;
+            if(d_Pad_Right)
+            {
+                playerInventory.ChangeRightWeapon();   
+            }
+            else if (d_Pad_Left)
+            {
+                playerInventory.ChangeLeftWeapon();
+            }
+            
+            
         }
     }
 }
