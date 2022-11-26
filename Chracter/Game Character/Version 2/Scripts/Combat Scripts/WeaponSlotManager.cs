@@ -14,9 +14,12 @@ namespace CotN
 
         Animator animator;
 
+        QuickSlotsUI quickSlotsUI;        
+
         private void Awake()
         {
             animator = GetComponent<Animator>();
+            quickSlotsUI = FindObjectOfType<QuickSlotsUI>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots)
             {
@@ -37,6 +40,7 @@ namespace CotN
             {
                 leftHandSlot.LoadWeaponModel(weaponItem);
                 LoadLeftWeaponDamageCollider();
+                quickSlotsUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
                 #region Handle Left Weapon Idle Animatios
                 if(weaponItem != null)
                 {
@@ -52,6 +56,7 @@ namespace CotN
             {
                 rightHandSlot.LoadWeaponModel(weaponItem);
                 LoadRightWeaponDamageCollider();
+                quickSlotsUI.UpdateWeaponQuickSlotsUI(false, weaponItem);
                 #region Handle Right Weapon Idle Animations
                 if(weaponItem != null)
                 {

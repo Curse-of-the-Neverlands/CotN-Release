@@ -47,8 +47,7 @@ namespace CotN
             }
 
 
-            // We can uncomment this later if we wanna add some more weapons to the quick slots for right weapons
-            /*
+
             else if (currentRightWeaponIndex == 1 && weaponsinRightHandSlots[1] != null)
             {
                 rightWeapon = weaponsinRightHandSlots[currentRightWeaponIndex];
@@ -58,7 +57,7 @@ namespace CotN
             {
                 currentRightWeaponIndex = currentRightWeaponIndex + 1;
             }
-            */
+
 
 
             if (currentRightWeaponIndex > weaponsinRightHandSlots.Length - 1)
@@ -84,8 +83,6 @@ namespace CotN
                 currentLeftWeaponIndex = currentLeftWeaponIndex + 1;
             }
 
-            // We can uncomment this later if we wanna add some more weapons to the quick slots for left weapons
-            /*
             else if (currentLeftWeaponIndex == 1 && weaponsinLeftHandSlots[1] != null)
             {
                 leftWeapon = weaponsinLeftHandSlots[currentLeftWeaponIndex];
@@ -95,7 +92,6 @@ namespace CotN
             {
                 currentLeftWeaponIndex = currentLeftWeaponIndex + 1;
             }
-            */
 
             if (currentLeftWeaponIndex > weaponsinLeftHandSlots.Length - 1)
             {
