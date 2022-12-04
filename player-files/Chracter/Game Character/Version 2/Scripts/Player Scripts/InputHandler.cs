@@ -13,6 +13,7 @@ namespace CotN
         public float mouseY;
 
         public bool b_Input;
+        public bool f_Input;
         public bool rb_Input;
         public bool rt_Input;
         public bool d_Pad_Up;
@@ -68,6 +69,7 @@ namespace CotN
             HandleRollInput(delta);
             HandleAttackInput(delta);
             HandleQuickSlotsInput();
+            HandleInteractingButtonInput();
         }
 
         private void MoveInput(float delta)
@@ -147,6 +149,11 @@ namespace CotN
             }
             
             
+        }
+
+        private void HandleInteractingButtonInput()
+        {
+            inputActions.PlayerActions.f.performed += i => f_Input = true;
         }
     }
 }

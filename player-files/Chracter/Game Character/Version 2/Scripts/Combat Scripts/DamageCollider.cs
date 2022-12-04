@@ -27,7 +27,7 @@ namespace CotN
         {
             damageCollider.enabled = false;
         }
-    
+
         private void OnTriggerEnter(Collider collision)
         {
             if (collision.tag == "Player")
