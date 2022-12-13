@@ -11,6 +11,10 @@ namespace CotN
         Animator anim;
         CameraHandler cameraHandler;
         PlayerLocomotion playerLocomotion;
+        
+        InteractableUI interactableUI;
+        public GameObject interactableUIGameObject;
+        public GameObject itemInteractableGameObject;
 
         public bool isInteracting;
 
@@ -32,6 +36,7 @@ namespace CotN
             inputHandler = GetComponent<InputHandler>();
             anim = GetComponentInChildren<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
+            interactableUI = FindObjectOfType<InteractableUI>();
         }
 
         void Update()
@@ -46,7 +51,7 @@ namespace CotN
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
 
-
+            CheckForInteractableObject();
         }
 
         private void FixedUpdate()
@@ -70,12 +75,51 @@ namespace CotN
             inputHandler.d_Pad_Up = false;
             inputHandler.d_Pad_Right = false;
             inputHandler.d_Pad_Left = false;
+            inputHandler.f_Input = false;
 
             if(isInAir) 
             {
                 playerLocomotion.inAirTimer = playerLocomotion.inAirTimer + Time.deltaTime;
             }
         }
+
+        public void CheckForInteractableObject()
+        {
+            RaycastHit hit;
+
+            if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out hit, 1f, cameraHandler.ignoreLayers))
+            {
+                if (hit.collider.tag == "Interactable")
+                {
+                    Interactable interactableObject = hit.collider.GetComponent<Interactable>();
+
+                    if (interactableObject != null)
+                    {
+                        string interactableText = interactableObject.interactableText;
+                        interactableUI.interactableText.text = interactableText;
+                        interactableUIGameObject.SetActive(true);
+
+                        if (inputHandler.f_Input)
+                        {
+                            hit.collider.GetComponent<Interactable>().Interact(this);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (interactableUIGameObject != null)
+                {
+                    interactableUIGameObject.SetActive(false);
+                }
+
+                if (itemInteractableGameObject != null && inputHandler.f_Input)
+                {
+                    itemInteractableGameObject.SetActive(false);
+                }
+            }
+        }
+
         
     }
 }

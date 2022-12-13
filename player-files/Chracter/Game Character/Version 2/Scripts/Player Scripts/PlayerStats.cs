@@ -88,10 +88,24 @@ namespace CotN
         }
 
         public void IncreaseStaminaPerTick()
-        {
+        {   
+            if (currentStamina <= 99) {
             currentStamina += 1;
             staminabar.SetCurrentStamina(currentStamina);
+            }
         }
+
+        void IncreaseHealthLevel()
+        {
+            healthLevel += 5;
+        }
+
+        void IncreaseStaminaLevel()
+        {
+            staminaLevel += 5;
+        }
+
+
 
     }
 }
