@@ -16,6 +16,9 @@ namespace CotN
         public bool f_Input;
         public bool rb_Input;
         public bool rt_Input;
+        public bool jump_Input;
+        public bool inventory_Input;
+
         public bool d_Pad_Up;
         public bool d_Pad_Down;
         public bool d_Pad_Left;
@@ -25,6 +28,7 @@ namespace CotN
         public bool rollFlag;
         public bool sprintFlag;
         public bool comboFlag;
+        public bool inventoryFlag;
         public float rollInputTimer;
 
 
@@ -33,6 +37,7 @@ namespace CotN
         PlayerAttacker playerAttacker;
         PlayerInventory playerInventory;
         PlayerManager playerManager;
+        UIManager uiManager;
         CameraHandler cameraHandler;
 
         Vector2 movementInput;
@@ -43,6 +48,7 @@ namespace CotN
             playerAttacker = GetComponent<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
+            uiManager = FindObjectOfType<UIManager>();
         }
 
 
@@ -70,6 +76,8 @@ namespace CotN
             HandleAttackInput(delta);
             HandleQuickSlotsInput();
             HandleInteractingButtonInput();
+            HandleJumpInput();
+            HandleInventoryInput();
         }
 
         private void MoveInput(float delta)
@@ -154,6 +162,30 @@ namespace CotN
         private void HandleInteractingButtonInput()
         {
             inputActions.PlayerActions.f.performed += i => f_Input = true;
+        }
+
+        private void HandleJumpInput()
+        {
+            inputActions.PlayerActions.jump.performed += i => jump_Input = true;
+        }
+
+        private void HandleInventoryInput()
+        {
+           inputActions.PlayerActions.Inventory.performed += i => inventory_Input = true;
+
+           if (inventory_Input)
+           {
+                inventoryFlag =! inventoryFlag;
+                if (inventoryFlag)
+                {
+                    uiManager.OpenSelectWindow();
+                }
+                else 
+                {
+                    uiManager.CloseSelectWindow();
+                }
+           }
+
         }
     }
 }
