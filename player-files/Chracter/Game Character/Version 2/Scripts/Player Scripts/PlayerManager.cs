@@ -45,13 +45,16 @@ namespace CotN
 
             isInteracting = anim.GetBool("isInteracting");
             canDoCombo = anim.GetBool("canDoCombo");
+            anim.SetBool("isInAir", isInAir);
 
             inputHandler.TickInput(delta);
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
+            playerLocomotion.HandleJumping();
 
             CheckForInteractableObject();
+
         }
 
         private void FixedUpdate()
@@ -71,11 +74,14 @@ namespace CotN
             inputHandler.sprintFlag = false;
             inputHandler.rb_Input = false;
             inputHandler.rt_Input = false;
+            inputHandler.jump_Input = false;
+
             inputHandler.d_Pad_Down = false;
             inputHandler.d_Pad_Up = false;
             inputHandler.d_Pad_Right = false;
             inputHandler.d_Pad_Left = false;
             inputHandler.f_Input = false;
+            inputHandler.inventory_Input = false;
 
             if(isInAir) 
             {
