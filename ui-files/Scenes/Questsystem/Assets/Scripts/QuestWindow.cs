@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
+using TMPro;
 
 public class QuestWindow : MonoBehaviour
 {
-    [SerializeField] private Text titleText;
-    [SerializeField] private Text descriptionText;
+    [SerializeField] private TMP_Text titleText;
+    [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private GameObject goalPrefab;
     [SerializeField] private Transform goalsContent;
-    [SerializeField] private Text xpText;
-    [SerializeField] private Text coinsText;
+    [SerializeField] private TMP_Text xpText;
+    [SerializeField] private TMP_Text coinsText;
 
     public void Initialize(Quest quest)
     {
@@ -34,7 +35,7 @@ public class QuestWindow : MonoBehaviour
             }
             else
             {
-                countObj.GetComponent<Text>().text = goal.CurrentAmount + "/" + goal.RequiredAmount;
+                countObj.GetComponent<TMP_Text>().text = goal.CurrentAmount + "/" + goal.RequiredAmount;
 
                 skipObj.GetComponent<Button>().onClick.AddListener(delegate
                 {
